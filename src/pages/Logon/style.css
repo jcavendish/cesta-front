@@ -1,0 +1,43 @@
+.logon-container {
+  width: 100%;
+  max-width: 1120px;
+  height: 100vh;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logon-container section.form {
+  width: 100%;
+  max-width: 350px;
+  margin-right: 30px;
+}
+
+.logon-container section.form form {
+  margin-top: 100px;
+}
+
+.logon-container section.form form h2 {
+  font-size: 32px;
+  margin-bottom: 32px;
+}
+
+.logon-container .left-container {
+  width: 100%;
+}
+
+.logon-container .right-container {
+  width: 50%;
+  height: 100vh;
+  background-color: #252a37;
+  right: 0;
+  position: absolute;
+  display: flex;
+}
+
+.logon-container .right-container img {
+  width: 60%;
+  margin: auto;
+}
