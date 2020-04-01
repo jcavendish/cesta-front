@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { FiArrowDownLeft } from 'react-icons/fi';
 
-import logoImg from '../../assets/logo.png';
 import api from '../../services/api';
 
-import './style.css';
+import Form from '../../components/Form';
+import LogoContent from '../../components/LogoContent';
+import BackLink from '../../components/BackLink';
+import {
+  DefaultContainer,
+  ContentContainer,
+} from '../../components/DefaultContainers';
 
 export default () => {
   const [username, setUsername] = useState('');
@@ -34,67 +39,63 @@ export default () => {
     }
   };
 
+  const form = {
+    handleSubmit: (e) => handleSubmit(e),
+    inputs: [
+      {
+        placeholder: 'Nome de usuário',
+        value: username,
+        handleChange: (value) => setUsername(value),
+      },
+      {
+        type: 'password',
+        placeholder: 'Senha',
+        value: password,
+        handleChange: (value) => setPassword(value),
+      },
+      {
+        type: 'email',
+        placeholder: 'E-mail',
+        value: email,
+        handleChange: (value) => setEmail(value),
+      },
+      {
+        placeholder: 'Whatsapp',
+        value: whatsapp,
+        handleChange: (value) => setWhatsapp(value),
+      },
+      {
+        placeholder: 'Cidade',
+        value: city,
+        handleChange: (value) => setCity(value),
+      },
+      {
+        placeholder: 'Uf',
+        value: uf,
+        handleChange: (value) => setUf(value),
+      },
+    ],
+    button: {
+      action: {
+        text: 'Cadastrar',
+      },
+    },
+  };
+
   return (
-    <div className="register-container">
-      <div className="content">
-        <div className="logo-content">
-          <img src={logoImg} alt="cesta" />
-          <section>
-            <h2>Cadastro</h2>
-            <p>
-              Faça seu cadastro, entre na plataforma e ajude pessoas a
-              encontrarem os casos de sua ONG.
-            </p>
-
-            <Link className="back-link" to="/">
-              <FiArrowDownLeft size={16} color="#252a37" /> Já tenho cadastro
-            </Link>
-          </section>
-        </div>
-
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <input
-            placeholder="Nome de usuário"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input
-            type="email"
-            placeholder="E-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            placeholder="Whatsapp"
-            value={whatsapp}
-            onChange={(e) => setWhatsapp(e.target.value)}
-          />
-
-          <div className="input-group">
-            <input
-              placeholder="Cidade"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
-            <input
-              placeholder="Uf"
-              value={uf}
-              onChange={(e) => setUf(e.target.value)}
-              style={{ width: 80 }}
-            />
-          </div>
-
-          <button className="button" type="submit">
-            Cadastrar
-          </button>
-        </form>
-      </div>
-    </div>
+    <DefaultContainer>
+      <ContentContainer>
+        <LogoContent
+          title="Cadastro"
+          text="Faça seu cadastro, entre na plataforma e ajude pessoas a
+          encontrarem os seus produtos."
+        >
+          <BackLink to="/">
+            <FiArrowDownLeft size={16} color="#252a37" /> Já tenho cadastro
+          </BackLink>
+        </LogoContent>
+        <Form {...form} />
+      </ContentContainer>
+    </DefaultContainer>
   );
 };

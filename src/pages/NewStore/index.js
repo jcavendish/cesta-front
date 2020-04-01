@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { FiArrowDownLeft } from 'react-icons/fi';
 
-import logoImg from '../../assets/logo.png';
 import api from '../../services/api';
 
-import './styles.css';
+import Form from '../../components/Form';
+import LogoContent from '../../components/LogoContent';
+import BackLink from '../../components/BackLink';
+import {
+  DefaultContainer,
+  ContentContainer,
+} from '../../components/DefaultContainers';
 
 export default () => {
   const [name, setName] = useState('');
@@ -13,6 +18,9 @@ export default () => {
   const history = useHistory();
 
   const token = localStorage.getItem('token');
+  if (!token) {
+    history.push('/');
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,33 +40,36 @@ export default () => {
     }
   };
 
-  return (
-    <div className="new-store-container">
-      <div className="content">
-        <div className="logo-content">
-          <img src={logoImg} alt="cesta" />
-          <section>
-            <h2>Cadastrar nova loja</h2>
-            <p>Crie sua loja, adicione produtos e comece a receber pedidos.</p>
+  const form = {
+    handleSubmit: (e) => handleSubmit(e),
+    inputs: [
+      {
+        placeholder: 'Nova loja',
+        value: name,
+        handleChange: (value) => setName(value),
+      },
+    ],
+    button: {
+      action: {
+        text: 'Cadastrar',
+      },
+    },
+  };
 
-            <Link className="back-link" to="/lojas">
-              <FiArrowDownLeft size={16} color="#252a37" /> Voltar para lojas
-            </Link>
-          </section>
-        </div>
-        <div className="form-content">
-          <form onSubmit={(e) => handleSubmit(e)}>
-            <input
-              placeholder="Nova loja"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <button className="button" type="submit">
-              Cadastrar
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+  return (
+    <DefaultContainer>
+      <ContentContainer>
+        <LogoContent
+          title="Cadastrar nova loja"
+          text="Crie sua loja, adicione produtos e comece a receber pedidos."
+        >
+          <BackLink to="/lojas">
+            <FiArrowDownLeft size={16} color="#252a37" /> Voltar para lojas
+          </BackLink>
+        </LogoContent>
+
+        <Form {...form} />
+      </ContentContainer>
+    </DefaultContainer>
   );
 };

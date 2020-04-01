@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { FiTrash2, FiArrowRight } from 'react-icons/fi';
 
 import './style.css';
 
 import api from '../../services/api';
-import Header from '../Header';
+import Header from '../../components/Header';
+import Rate from '../../components/Rate';
+import { IconButton, PrimaryLinkButton } from '../../components/Buttons';
 
-export default function Stores() {
-  const [stores, setStores] = useState([]);
+export default function Profile() {
+  const history = useHistory();
 
   const token = localStorage.getItem('token');
+  console.log(token);
+  if (!token) {
+    console.log('NO TOKEN');
+    history.push('/');
+  }
 
-  const history = useHistory();
+  const [stores, setStores] = useState([]);
 
   useEffect(() => {
     const getStores = async () => {
       try {
-        const response = await api.get('stores', {
+        const response = await api.get('profile', {
           headers: {
             Authorization: token,
           },
@@ -32,11 +39,11 @@ export default function Stores() {
     getStores();
   }, [token]);
 
-  const handleSelect = (store) => {
+  function handleSelect(store) {
     history.push('/loja/detalhe', [store]);
-  };
+  }
 
-  const handleDelete = async (id) => {
+  async function handleDelete(id) {
     try {
       await api.delete(`stores/${id}`, {
         headers: {
@@ -47,15 +54,15 @@ export default function Stores() {
       console.log(error);
     }
     setStores(stores.filter((store) => store.id !== id));
-  };
+  }
 
   return (
     <div className="profile-container">
       <Header
         button={
-          <Link className="button" to="/loja/cadastrar">
+          <PrimaryLinkButton to="/loja/cadastrar">
             Cadastrar nova loja
-          </Link>
+          </PrimaryLinkButton>
         }
       />
       <section className="content-container">
@@ -68,23 +75,15 @@ export default function Stores() {
                 <p>{store.name}</p>
 
                 <strong>RATE:</strong>
-                <p>{store.rate}</p>
+                <Rate rate={store.rate}></Rate>
               </div>
               <div className="content-buttons">
-                <button
-                  className="icon-button"
-                  onClick={() => handleDelete(store.id)}
-                  type="button"
-                >
+                <IconButton OnClick={() => handleDelete(store.id)}>
                   <FiTrash2 size={20} color="a8a8b3" />
-                </button>
-                <button
-                  className="icon-button"
-                  onClick={() => handleSelect(store)}
-                  type="button"
-                >
+                </IconButton>
+                <IconButton OnClick={() => handleSelect(store)}>
                   <FiArrowRight size={20} color="a8a8b3" />
-                </button>
+                </IconButton>
               </div>
             </li>
           ))}
