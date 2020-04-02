@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
-import Register from '../Register';
+import Register from '../../components/Register';
 
 export default () => {
   const [name, setName] = useState('');
