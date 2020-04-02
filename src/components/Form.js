@@ -9,7 +9,7 @@ export default function Form(props) {
   return (
     <FormContainer>
       <DefaultForm onSubmit={(e) => props.handleSubmit(e)}>
-        {props.title ? <h2>{props.title}</h2> : null}
+        {props.title ? <Title>{props.title}</Title> : null}
         {props.inputs.map((input) => (
           <DefaultInput
             {...input}
@@ -24,6 +24,11 @@ export default function Form(props) {
     </FormContainer>
   );
 }
+
+const Title = styled.h2`
+  font-size: 32px;
+  margin-bottom: 32px;
+`;
 
 const DefaultForm = styled.form`
   width: 100%;
