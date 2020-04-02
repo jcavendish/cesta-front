@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FiX, FiArrowLeft } from 'react-icons/fi';
+import { FiX, FiArrowLeft, FiSearch } from 'react-icons/fi';
 
 import Header from '../../components/Header';
 import api from '../../services/api';
@@ -8,13 +8,15 @@ import Rate from '../../components/Rate';
 import Form from '../../components/Form';
 import { IconButton } from '../../components/Buttons';
 import styled from 'styled-components';
+import { DefaultInput } from '../../components/Input';
 
-export default function StoreDetail(props) {
+export default (props) => {
   const [products, setProducts] = useState([]);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [value, setValue] = useState(0);
   const [measure, setMeasure] = useState('');
+  const [lookup, setLookup] = useState('');
 
   const [store] = props.location.state;
 
@@ -103,22 +105,51 @@ export default function StoreDetail(props) {
     },
   };
 
+  const context = {
+    store,
+    products,
+    form,
+    lookup,
+    setLookup: (value) => setLookup(value),
+    click: () => handleClick(),
+    delete: (id) => handleDelete(id),
+  };
+
+  return <StoreDetail context={context} />;
+};
+
+function StoreDetail({ context }) {
   return (
     <div>
       <Header />
       <StoreDetailContainer>
         <StoreDetailContentContainer>
-          <StoreDetailHeader {...store} OnClick={() => handleClick()} />
+          <HeaderContainer>
+            <StoreDetailHeader
+              {...context.store}
+              OnClick={() => context.click()}
+            />
+            <StoreDetailSearch
+              lookup={context.lookup}
+              OnChange={(value) => context.setLookup(value)}
+            />
+          </HeaderContainer>
           <StoreDetailCards
-            products={products}
-            form={form}
-            OnClick={(id) => handleDelete(id)}
+            products={context.products}
+            form={context.form}
+            OnClick={() => context.delete()}
           />
         </StoreDetailContentContainer>
       </StoreDetailContainer>
     </div>
   );
 }
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
 
 function StoreDetailHeader({ name, rate, OnClick }) {
   return (
@@ -127,9 +158,7 @@ function StoreDetailHeader({ name, rate, OnClick }) {
         <FiArrowLeft size={36} />
       </IconButton>
       <HeaderTitle>{name}</HeaderTitle>
-      <h4>
-        <Rate rate={rate}></Rate>
-      </h4>
+      <Rate rate={rate}></Rate>
     </StoreDetailTitle>
   );
 }
@@ -139,34 +168,61 @@ const HeaderTitle = styled.h1`
   font-size: 28px;
 `;
 
+function StoreDetailSearch({ lookup, OnChange }) {
+  return (
+    <SeachInput
+      placeholder="Procure por um produto"
+      value={lookup}
+      OnChange={(value) => OnChange(value)}
+      icon={<SearchIcon size={24} color="#dcdce6" />}
+    />
+  );
+}
+
+const SearchIcon = styled(FiSearch)`
+  position: absolute;
+  z-index: 1;
+  margin: 25px 0 0 15px;
+`;
+
+const SeachInput = styled(DefaultInput)`
+  position: relative;
+  padding-left: 50px;
+  margin-right: 0;
+`;
+
 function ProductTable({ products, OnClick }) {
   return (
     <ContainerTable>
-      <Row>
-        <ColumnHeader>Nome</ColumnHeader>
-        <ColumnHeader>Marca</ColumnHeader>
-        <ColumnHeader>Unidade</ColumnHeader>
-        <ColumnHeader>Preço</ColumnHeader>
-        <ColumnHeader></ColumnHeader>
-      </Row>
-      {products.map((product) => (
-        <Row key={product.id}>
-          <Column>{product.name}</Column>
-          <Column>{product.description}</Column>
-          <Column>{product.measure}</Column>
-          <Column>
-            {Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-            }).format(product.value)}
-          </Column>
-          <Column>
-            <IconButton OnClick={() => OnClick(product.id)}>
-              <FiX size={16} />
-            </IconButton>
-          </Column>
+      <thead>
+        <Row>
+          <ColumnHeader>Nome</ColumnHeader>
+          <ColumnHeader>Marca</ColumnHeader>
+          <ColumnHeader>Unidade</ColumnHeader>
+          <ColumnHeader>Preço</ColumnHeader>
+          <ColumnHeader></ColumnHeader>
         </Row>
-      ))}
+      </thead>
+      <tbody>
+        {products.map((product) => (
+          <Row key={product.id}>
+            <Column>{product.name}</Column>
+            <Column>{product.description}</Column>
+            <Column>{product.measure}</Column>
+            <Column>
+              {Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              }).format(product.value)}
+            </Column>
+            <Column>
+              <IconButton OnClick={() => OnClick(product.id)}>
+                <FiX size={16} />
+              </IconButton>
+            </Column>
+          </Row>
+        ))}
+      </tbody>
     </ContainerTable>
   );
 }
@@ -232,6 +288,7 @@ const StoreDetailContentContainer = styled.section`
 const StoreDetailTitle = styled.div`
   display: flex;
   align-items: center;
+  min-width: 320px;
 `;
 
 const StoreProductCard = styled.div`
