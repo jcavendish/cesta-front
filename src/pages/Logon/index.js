@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { FiLogIn } from 'react-icons/fi/';
 import { useHistory } from 'react-router-dom';
 
-import './style.css';
-
 import logoImg from '../../assets/logo.png';
 import api from '../../services/api';
 import Form from '../../components/Form';
 import BackLink from '../../components/BackLink';
+import { LoginWrapper } from '../../components/Wrappers';
+import styled from 'styled-components';
 
 export default () => {
   const [username, setUsername] = useState('');
@@ -52,18 +52,40 @@ export default () => {
     },
   };
 
+  return <Login form={form} />;
+};
+
+function Login({ form }) {
   return (
-    <div className="logon-container">
-      <div className="left-container">
+    <LoginWrapper>
+      <LeftContainer>
         <Form {...form}>
           <BackLink to="/registrar">
             <FiLogIn size={16} color="#252a37" /> Não tenho cadastro
           </BackLink>
         </Form>
-      </div>
-      <div className="right-container">
+      </LeftContainer>
+      <RightContainer>
         <img src={logoImg} alt="cesta" width={'50%'} />
-      </div>
-    </div>
+      </RightContainer>
+    </LoginWrapper>
   );
-};
+}
+
+const LeftContainer = styled.div`
+  width: 100%;
+`;
+
+const RightContainer = styled.div`
+  width: 50%;
+  height: 100vh;
+  background-color: #252a37;
+  right: 0;
+  position: absolute;
+  display: flex;
+
+  & img {
+    width: 60%;
+    margin: auto;
+  }
+`;

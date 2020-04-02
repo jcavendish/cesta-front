@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FiArrowDownLeft } from 'react-icons/fi';
 
 import api from '../../services/api';
-
-import Form from '../../components/Form';
-import LogoContent from '../../components/LogoContent';
-import BackLink from '../../components/BackLink';
-import {
-  DefaultContainer,
-  ContentContainer,
-} from '../../components/DefaultContainers';
+import Register from '../Register';
 
 export default () => {
   const [name, setName] = useState('');
@@ -57,19 +49,12 @@ export default () => {
   };
 
   return (
-    <DefaultContainer>
-      <ContentContainer>
-        <LogoContent
-          title="Cadastrar nova loja"
-          text="Crie sua loja, adicione produtos e comece a receber pedidos."
-        >
-          <BackLink to="/lojas">
-            <FiArrowDownLeft size={16} color="#252a37" /> Voltar para lojas
-          </BackLink>
-        </LogoContent>
-
-        <Form {...form} />
-      </ContentContainer>
-    </DefaultContainer>
+    <Register
+      title="Cadastrar nova loja"
+      text="Crie sua loja, adicione produtos e comece a receber pedidos."
+      linkTo="/lojas"
+      linkText="Voltar para lojas"
+      form={form}
+    />
   );
 };

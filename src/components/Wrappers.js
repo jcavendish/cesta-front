@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const DefaultContainer = styled.div`
+export const DefaultWrapper = styled.div`
   width: 100%;
   max-width: 1120px;
   height: 100vh;
@@ -11,7 +11,11 @@ export const DefaultContainer = styled.div`
   justify-content: center;
 `;
 
-export const ContentContainer = styled.div`
+export const LoginWrapper = styled(DefaultWrapper)`
+  justify-content: space-between;
+`;
+
+export const ContentWrapper = styled.div`
   width: 100%;
   padding: 50px 96px;
   background: #f0f0f5;

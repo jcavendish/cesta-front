@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FiArrowDownLeft } from 'react-icons/fi';
 
 import api from '../../services/api';
-
-import Form from '../../components/Form';
-import LogoContent from '../../components/LogoContent';
-import BackLink from '../../components/BackLink';
-import {
-  DefaultContainer,
-  ContentContainer,
-} from '../../components/DefaultContainers';
+import Register from '../../components/Register';
 
 export default () => {
   const [username, setUsername] = useState('');
@@ -83,19 +75,13 @@ export default () => {
   };
 
   return (
-    <DefaultContainer>
-      <ContentContainer>
-        <LogoContent
-          title="Cadastro"
-          text="Faça seu cadastro, entre na plataforma e ajude pessoas a
-          encontrarem os seus produtos."
-        >
-          <BackLink to="/">
-            <FiArrowDownLeft size={16} color="#252a37" /> Já tenho cadastro
-          </BackLink>
-        </LogoContent>
-        <Form {...form} />
-      </ContentContainer>
-    </DefaultContainer>
+    <Register
+      title="Cadastro"
+      text="Faça seu cadastro, entre na plataforma e ajude pessoas a
+  encontrarem os seus produtos."
+      linkTo="/"
+      linkText="Já tenho cadastro"
+      form={form}
+    />
   );
 };
