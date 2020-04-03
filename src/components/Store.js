@@ -1,12 +1,12 @@
 import React from 'react';
-import { FiX, FiArrowLeft, FiSearch } from 'react-icons/fi';
+import { FiX, FiArrowLeft } from 'react-icons/fi';
 
 import Header from './Header';
 import Rate from './Rate';
 import Form from './Form';
 import { IconButton } from './Buttons';
 import styled from 'styled-components';
-import { DefaultInput } from './Input';
+import SearchContainer from './Search';
 
 export default function Store({ context, children }) {
   return (
@@ -16,10 +16,7 @@ export default function Store({ context, children }) {
         <ContentContainer>
           <HeaderContainer>
             <StoreHeader {...context.store} OnClick={() => context.click()} />
-            <Search
-              lookup={context.lookup}
-              OnChange={(value) => context.setLookup(value)}
-            />
+            <SearchContainer OnChange={(value) => context.filter(value)} />
           </HeaderContainer>
           <Card
             products={context.products}
@@ -53,29 +50,6 @@ function StoreHeader({ name, rate, OnClick }) {
 const HeaderTitle = styled.h1`
   margin-right: 10px;
   font-size: 28px;
-`;
-
-function Search({ lookup, OnChange }) {
-  return (
-    <SeachInput
-      placeholder="Procure por um produto"
-      value={lookup}
-      OnChange={(value) => OnChange(value)}
-      icon={<SearchIcon size={24} color="#dcdce6" />}
-    />
-  );
-}
-
-const SearchIcon = styled(FiSearch)`
-  position: absolute;
-  z-index: 1;
-  margin: 25px 0 0 15px;
-`;
-
-const SeachInput = styled(DefaultInput)`
-  position: relative;
-  padding-left: 50px;
-  margin-right: 0;
 `;
 
 function ProductTable({ products, OnClick }) {

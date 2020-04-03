@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 import api from '../../services/api';
 import Store from '../../components/Store';
+
+const searchAPI = (store_id, name) =>
+  api.get(`stores/${store_id}/products?name=${name}`);
+const searchAPIDebounce = AwesomeDebouncePromise(searchAPI, 300);
 
 export default (props) => {
   const [products, setProducts] = useState([]);
@@ -10,7 +15,6 @@ export default (props) => {
   const [description, setDescription] = useState('');
   const [value, setValue] = useState(0);
   const [measure, setMeasure] = useState('');
-  const [lookup, setLookup] = useState('');
 
   const [store] = props.location.state;
 
@@ -23,6 +27,11 @@ export default (props) => {
     }
     getProducts();
   }, [store]);
+
+  async function handleFilter(name) {
+    const response = await searchAPIDebounce(store.id, name);
+    setProducts(response.data);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -71,8 +80,7 @@ export default (props) => {
   const context = {
     store,
     products,
-    lookup,
-    setLookup: (value) => setLookup(value),
+    filter: (value) => handleFilter(value),
     click: () => handleClick(),
     delete: (id) => handleDelete(id),
   };
