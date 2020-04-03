@@ -32,29 +32,28 @@ export default () => {
     }
   };
 
-  const form = {
-    handleSubmit: (e) => handleSubmit(e),
-    inputs: [
-      {
-        placeholder: 'Nova loja',
-        value: name,
-        handleChange: (value) => setName(value),
-      },
-    ],
-    button: {
-      action: {
-        text: 'Cadastrar',
-      },
-    },
-  };
-
   return (
     <Register
       title="Cadastrar nova loja"
       text="Crie sua loja, adicione produtos e comece a receber pedidos."
       linkTo="/lojas"
       linkText="Voltar para lojas"
-      form={form}
-    />
+    >
+      {{
+        handleSubmit: (e) => handleSubmit(e),
+        inputs: [
+          {
+            placeholder: 'Nova loja',
+            value: name,
+            handleChange: (value) => setName(value),
+          },
+        ],
+        button: {
+          action: {
+            text: 'Cadastrar',
+          },
+        },
+      }}
+    </Register>
   );
 };

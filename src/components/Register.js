@@ -5,7 +5,7 @@ import BackLink from './BackLink';
 import { FiArrowDownLeft } from 'react-icons/fi';
 import Form from './Form';
 
-export default function Register({ title, text, linkTo, linkText, form }) {
+export default function Register({ title, text, linkTo, linkText, children }) {
   return (
     <DefaultWrapper>
       <ContentWrapper>
@@ -15,7 +15,7 @@ export default function Register({ title, text, linkTo, linkText, form }) {
             {linkText}
           </BackLink>
         </LogoContent>
-        <Form {...form} />
+        <Form {...children} />
       </ContentWrapper>
     </DefaultWrapper>
   );

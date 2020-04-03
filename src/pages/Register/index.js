@@ -31,49 +31,6 @@ export default () => {
     }
   };
 
-  const form = {
-    handleSubmit: (e) => handleSubmit(e),
-    inputs: [
-      {
-        placeholder: 'Nome de usuário',
-        value: username,
-        handleChange: (value) => setUsername(value),
-      },
-      {
-        type: 'password',
-        placeholder: 'Senha',
-        value: password,
-        handleChange: (value) => setPassword(value),
-      },
-      {
-        type: 'email',
-        placeholder: 'E-mail',
-        value: email,
-        handleChange: (value) => setEmail(value),
-      },
-      {
-        placeholder: 'Whatsapp',
-        value: whatsapp,
-        handleChange: (value) => setWhatsapp(value),
-      },
-      {
-        placeholder: 'Cidade',
-        value: city,
-        handleChange: (value) => setCity(value),
-      },
-      {
-        placeholder: 'Uf',
-        value: uf,
-        handleChange: (value) => setUf(value),
-      },
-    ],
-    button: {
-      action: {
-        text: 'Cadastrar',
-      },
-    },
-  };
-
   return (
     <Register
       title="Cadastro"
@@ -81,7 +38,49 @@ export default () => {
   encontrarem os seus produtos."
       linkTo="/"
       linkText="Já tenho cadastro"
-      form={form}
-    />
+    >
+      {{
+        handleSubmit: (e) => handleSubmit(e),
+        inputs: [
+          {
+            placeholder: 'Nome de usuário',
+            value: username,
+            handleChange: (value) => setUsername(value),
+          },
+          {
+            type: 'password',
+            placeholder: 'Senha',
+            value: password,
+            handleChange: (value) => setPassword(value),
+          },
+          {
+            type: 'email',
+            placeholder: 'E-mail',
+            value: email,
+            handleChange: (value) => setEmail(value),
+          },
+          {
+            placeholder: 'Whatsapp',
+            value: whatsapp,
+            handleChange: (value) => setWhatsapp(value),
+          },
+          {
+            placeholder: 'Cidade',
+            value: city,
+            handleChange: (value) => setCity(value),
+          },
+          {
+            placeholder: 'Uf',
+            value: uf,
+            handleChange: (value) => setUf(value),
+          },
+        ],
+        button: {
+          action: {
+            text: 'Cadastrar',
+          },
+        },
+      }}
+    </Register>
   );
 };
